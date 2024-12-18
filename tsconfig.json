@@ -16,6 +16,14 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@core": ["src/core/index"],
+      "@repos": ["src/shared/repos/index"],
+      "@utils": ["src/shared/utils/index"],
+      "@models": ["src/shared/models/index"],
+      "@errors": ["src/shared/errors/index"],
+      "@typeguards": ["src/shared/typeguards/index"]
+    }
   }
 }
