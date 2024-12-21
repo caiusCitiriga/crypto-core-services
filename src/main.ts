@@ -20,7 +20,7 @@ async function bootstrap() {
 
   if (AppConfig.enableSwagger) {
     const config = new DocumentBuilder()
-      .setTitle('CryptoCoreServices API')
+      .setTitle('Crypto Core Services API')
       .build();
 
     SwaggerModule.setup(

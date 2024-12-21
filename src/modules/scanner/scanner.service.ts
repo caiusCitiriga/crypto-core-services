@@ -150,12 +150,12 @@ export class ScannerService {
 
   async getScannableSymbols(): Promise<IExchangeSymbol[]> {
     const {
-      timeFrames,
+      blacklist,
+      whitelist,
       quoteAsset,
+      timeFrames,
       exchangeMarket,
       maxScannedAssets,
-      baseAssetsBlacklist,
-      baseAssetsWhitelist,
     } = this.config;
 
     const allExchangeSymbols = await this.exchange.getTradableSymbols(
@@ -165,7 +165,7 @@ export class ScannerService {
     let validExchangeSymbols = allExchangeSymbols.filter((s) => {
       const isSameQuoteAsset =
         s.quoteAsset.toLowerCase() === quoteAsset.toLowerCase();
-      const isNotBlacklisted = !baseAssetsBlacklist.includes(s.baseAsset);
+      const isNotBlacklisted = !blacklist.includes(s.baseAsset);
       const isNotShortingPair =
         !s.baseAsset.toLowerCase().endsWith('up') &&
         !s.baseAsset.toLowerCase().endsWith('down');
@@ -173,14 +173,11 @@ export class ScannerService {
       return isSameQuoteAsset && isNotBlacklisted && isNotShortingPair;
     });
 
-    const validWhitelist =
-      baseAssetsWhitelist &&
-      baseAssetsWhitelist.length &&
-      baseAssetsWhitelist[0] !== '';
+    const validWhitelist = whitelist && whitelist.length && whitelist[0] !== '';
 
     if (validWhitelist)
       validExchangeSymbols = validExchangeSymbols.filter((s) =>
-        baseAssetsWhitelist.includes(s.baseAsset),
+        whitelist.includes(s.baseAsset),
       );
 
     const scannableSymbols: IExchangeSymbol[] = [];

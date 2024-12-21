@@ -3,8 +3,8 @@ import { ScannerService } from './scanner.service';
 import { ApiTags } from '@nestjs/swagger';
 import { ScannerConfigDto } from './dto/scanner-config.dto';
 
+@ApiTags('Scanner')
 @Controller('scanner')
-@ApiTags('scanner')
 export class ScannerController {
   constructor(private readonly scanner: ScannerService) {}
 

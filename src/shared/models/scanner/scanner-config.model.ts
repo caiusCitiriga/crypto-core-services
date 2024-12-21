@@ -1,11 +1,10 @@
 import { ExchangesMarkets } from '@models';
 
 export interface IScannerConfig {
-  quoteAsset: string;
+  quoteAsset?: string;
   timeFrames: string[];
   maxScannedAssets: number;
-  baseAssetsBlacklist: string[];
-  baseAssetsWhitelist: string[];
-  waitForFirstNewKline: boolean;
+  blacklist: string[];
+  whitelist: string[];
   exchangeMarket: ExchangesMarkets;
 }

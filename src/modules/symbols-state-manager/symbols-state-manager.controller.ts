@@ -7,7 +7,7 @@ import { SSMConfigDto } from './dto/ssm-config.dto';
 import { SymbolStateDto } from './dto/symbol-state.dto';
 import { SymbolsStateManagerService } from './symbols-state-manager.service';
 
-@ApiTags('ssm')
+@ApiTags('SSM')
 @Controller('ssm')
 export class SymbolsStateManagerController {
   constructor(private readonly SSMService: SymbolsStateManagerService) {}
