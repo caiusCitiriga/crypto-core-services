@@ -94,6 +94,10 @@ export class ScannerConfigDto implements IScannerConfig {
   })
   whitelist: string[];
 
-  @ApiProperty({ enum: ExchangeMarketsEnum })
+  @ApiProperty({
+    enum: ExchangeMarketsEnum,
+    description:
+      'Combination of exchange and market on that exchange on which to run the scan',
+  })
   exchangeMarket: ExchangesMarkets;
 }
