@@ -7,7 +7,7 @@ It enables you to:
 
 - fetch historical data
 - build realtime candles from first category data (realtime trades)
-- receive realtime prices updates for any supported symbol
+- receive realtime prices updates for any symbol
 - create custom time frames candles
 - track hundreds of symbols updates simultaneously on one or more time frames
 - receive realtime updates at each new tick
@@ -110,9 +110,25 @@ But you can use this service too, it exposes a websocket communication channel f
 
 ## Scanner
 
+- describe scanner role
+- describe first category data concept
+- describe deferred build start time concept for low time frames
+- describe realtime klines build vs exchange OHLCV delayed subscription
+
 ## Symbols State Manager (SSM)
 
+- describe SSM role
+
 ## History Loader
+
+- describe history loader role
+
+# Upcoming features
+
+- integration with more exchanges (OKX, Gate.io, Bitget, KuCoin, Coinbase, BitMart)
+- introduce a trader service, that will allow to place orders, manage position and more
+- introduce a "naive" backtesting engine
+- ❓ introduce a paper simulation trading using Bybit's DEMO trading feature ❓
 
 # TODO:
 
@@ -122,20 +138,3 @@ But you can use this service too, it exposes a websocket communication channel f
 - ws: document websocket interactions
 - REST: document REST interactions
 - SDK: implement nodejs SDK and document it
-
-# TODO (docs):
-
-### Scanner
-
-- describe scanner role
-- describe first category data concept
-- describe deferred build start time concept for low time frames
-- describe realtime klines build vs exchange OHLCV delayed subscription
-
-### History loader
-
-- describe history loader role
-
-### SSM
-
-- describe SSM role
