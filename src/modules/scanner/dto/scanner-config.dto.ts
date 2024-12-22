@@ -54,7 +54,7 @@ export class ScannerConfigDto implements IScannerConfig {
   @Min(0)
   maxScannedAssets: number;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     type: String,
     isArray: true,
     description:
@@ -69,9 +69,9 @@ export class ScannerConfigDto implements IScannerConfig {
       'For example if you want to exclude "BTC/USDT" and "ETH/USDT" pairs you should declare the list like so:<br/>' +
       '["BTC/USDT", "ETH/USDT"]',
   })
-  blacklist: string[];
+  blacklist?: string[];
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     type: String,
     isArray: true,
     description:
@@ -92,7 +92,7 @@ export class ScannerConfigDto implements IScannerConfig {
       '["BTC/USDT", "ETH/USDT"]<br/><br/>' +
       'Note: the same asset declared both in the blacklist and whitelist will be treated as blacklisted',
   })
-  whitelist: string[];
+  whitelist?: string[];
 
   @ApiProperty({
     enum: ExchangeMarketsEnum,

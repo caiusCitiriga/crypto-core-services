@@ -99,12 +99,12 @@ export class KlinesBuilderService {
   private getStartTimeMultiplier(tf: string): number {
     const tfMeta = MiscUtils.getTfMetadata(tf);
     if (tfMeta.unit === 's' && tfMeta.amount <= 15) {
-      return 10;
+      return 1;
     }
     if (tfMeta.unit === 'm' && tfMeta.amount <= 5) {
-      return 2;
+      return 1;
     }
 
-    return 0;
+    return 1; // change this to 0, and manage the merging of the first kline
   }
 }
