@@ -1,7 +1,4 @@
-// import { CronJob } from 'cron';
-// import { SchedulerRegistry } from '@nestjs/schedule';
-
-import { BehaviorSubject, filter, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, filter, map, tap } from 'rxjs';
 import { BadRequestException, Injectable, Logger } from '@nestjs/common';
 
 import { APP_ERRORS } from '@errors';
@@ -25,7 +22,6 @@ export class ScannerService {
     private readonly exchange: ExchangeService,
     private readonly tradesWatcher: TradesWatcherService,
     private readonly klinesBuilder: KlinesBuilderService,
-    // private readonly schedulerRegistry: SchedulerRegistry,
   ) {}
 
   get scannerStarted() {
@@ -58,15 +54,14 @@ export class ScannerService {
   }
 
   private subscribeTradesUpdates(): void {
+    const { quoteAsset, exchangeMarket } = this.config;
+
     this.tradesWatcher
-      .subscribeTradesUpdates(this.config.exchangeMarket)
+      .subscribeTradesUpdates(exchangeMarket)
       .pipe(
-        switchMap((trade) =>
-          this.klinesBuilder.buildKlines(trade, this.config.exchangeMarket),
-        ),
+        map((trade) => this.klinesBuilder.buildKlines(trade, exchangeMarket)),
         filter((builtKlines) => !!Object.keys(builtKlines.klines).length),
         tap((builtKlines) => {
-          const { quoteAsset } = this.config;
           // CCS ecosystem expects the symbol to be symBase/symQuote
           builtKlines.symbol = builtKlines.symbol.replace(
             quoteAsset,

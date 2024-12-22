@@ -110,8 +110,18 @@ But you can use this service too, it exposes a websocket communication channel f
 
 ## Scanner
 
-- describe scanner role
-- describe first category data concept
+The scanner is the core part that connects with the exchanges, and is responsible
+for providing realtime trades information that will be used to build the candles
+according to the user configured time frames, and other properties.
+
+To ensure data integrity, the scanner uses a "deferred candles build time" concept,
+meaning that it will defer the first candle building until a new candle starts,
+to ensure that it doesn't start the building process at the middle of a candles
+lifespan. This process at the moment is divided in two depending on the time frame:
+
+- for `seconds` time frames, lower or equal to `15 seconds`, the build will be
+  deferred by 10 units
+
 - describe deferred build start time concept for low time frames
 - describe realtime klines build vs exchange OHLCV delayed subscription
 
@@ -122,19 +132,3 @@ But you can use this service too, it exposes a websocket communication channel f
 ## History Loader
 
 - describe history loader role
-
-# Upcoming features
-
-- integration with more exchanges (OKX, Gate.io, Bitget, KuCoin, Coinbase, BitMart)
-- introduce a trader service, that will allow to place orders, manage position and more
-- introduce a "naive" backtesting engine
-- ❓ introduce a paper simulation trading using Bybit's DEMO trading feature ❓
-
-# TODO:
-
-- scanner: implement a reset mechanism to clean the current scanning and restart fresh. This will imply some cleanup procedure on the trades watcher too
-- dto: add validators on DTOs
-- ws: validate payloads for required properties
-- ws: document websocket interactions
-- REST: document REST interactions
-- SDK: implement nodejs SDK and document it

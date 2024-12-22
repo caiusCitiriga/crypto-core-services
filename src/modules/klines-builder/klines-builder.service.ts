@@ -23,10 +23,10 @@ export class KlinesBuilderService {
   private referenceKlines: ISymbolsReferenceKlines = {};
   private symbolsBuildStartTimes: ISymbolsBuildStartTime = {};
 
-  async buildKlines(
+  buildKlines(
     trade: ITrade,
     exchangeMarket: ExchangesMarkets,
-  ): Promise<IKlinesBuildResult> {
+  ): IKlinesBuildResult {
     const tfs = Object.keys(this.referenceKlines[trade.sym]);
     const result: IKlinesBuildResult = {
       klines: {},
@@ -34,25 +34,18 @@ export class KlinesBuilderService {
       timeFrames: tfs,
       symbol: trade.sym,
     };
-    await Promise.all(
-      tfs.map(
-        (tf) =>
-          new Promise<void>((r) => {
-            if (this.symbolsBuildStartTimes[trade.sym][tf] > trade.ts) {
-              r();
-              return;
-            }
-            const buildResult = KlinesUtils.buildKline(
-              trade,
-              tf,
-              this.referenceKlines[trade.sym][tf],
-            );
-            this.referenceKlines[trade.sym][tf] = buildResult;
-            result.klines[tf] = buildResult;
-            r();
-          }),
-      ),
-    );
+
+    for (const tf of tfs) {
+      if (this.symbolsBuildStartTimes[trade.sym][tf] > trade.ts) continue;
+
+      const buildResult = KlinesUtils.buildKline(
+        trade,
+        tf,
+        this.referenceKlines[trade.sym][tf],
+      );
+      this.referenceKlines[trade.sym][tf] = buildResult;
+      result.klines[tf] = buildResult;
+    }
 
     return result;
   }
@@ -99,6 +92,7 @@ export class KlinesBuilderService {
    * to calculate the symbol build time start. Based on
    * the time frame unit and amount will return different
    * multiplier values to use.
+   *
    * @param tf the input tf
    * @returns number the multiplier
    */
@@ -107,7 +101,10 @@ export class KlinesBuilderService {
     if (tfMeta.unit === 's' && tfMeta.amount <= 15) {
       return 10;
     }
+    if (tfMeta.unit === 'm' && tfMeta.amount <= 5) {
+      return 2;
+    }
 
-    return 1;
+    return 0;
   }
 }
